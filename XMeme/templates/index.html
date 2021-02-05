@@ -1,0 +1,56 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+
+	<title>XMeme</title>
+	<meta name="description" content="Crio XMeme Project">
+	<meta name="author" content="Abhishek Thakur">
+
+	<!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> -->
+	<style>
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		form {
+			display: flex;
+			flex-direction: column;
+		}
+		.feed {
+			overflow: scroll;
+			width: 300px;
+			height: 200px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="form">
+			<form>
+				<div>
+					<label for="owner">Owner Name</label><br>
+					<input type="text" id="owner" name="owner"><br>
+				</div>
+				<div>
+					<label for="caption">Caption</label><br>
+					<input type="text" id="caption" name="caption"><br>
+				</div>
+				<div>
+					<label for="meme_url">Meme URL</label><br>
+					<input type="link" id="meme_url" name="meme_url">
+					<input type="submit" value="Submit">
+				</div>
+			</form>
+		</div>
+		<div class="feed">
+			{% for meme in meme_list%}
+				<p>{{meme}}</p>
+			{% endfor %}
+		</div>
+	</div>
+</body>
+</html>

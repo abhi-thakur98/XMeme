@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'l)ql4@dyx%^=%eo1-8v4wdag_*b_+9%r18q1u@@4w($@oi7*dd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -71,6 +71,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'XMeme.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
