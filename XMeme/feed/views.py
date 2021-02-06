@@ -13,36 +13,40 @@ class MemeList(generics.ListCreateAPIView):
     serializer_class = MemeSerializer
 
     def create(self, request, *args, **kwargs):
-        serializer = MemeSerializer(data=request.data)
-
-        if serializer.is_valid():
-            owner = get_object_or_404(Owner, pk=request.data.get('owner'))
-            owner.num_memes += 1
-            owner.save()
-            serializer.save()
-            return Response({"id" : serializer.data.get('id')},status=201)
-        return Response(serializer.data,status=422)
+        name = request.data.get('name')
+        url = request.data.get('url')
+        caption = request.data.get('caption')
+        
+        owner,_ = Owner.objects.get_or_create(name=name)
+        meme,created = Meme.objects.get_or_create(name=owner,url=url,caption=caption)
+        
+        if not created:
+            return Response(status=422)
+        owner.num_memes += 1
+        owner.save()
+        return Response({"id" : meme.id},status=201)
         
 class OwnerList(generics.ListCreateAPIView):
     queryset = Owner.objects.all()
     serializer_class = OwnerSerializer
 
-class MemeDetails(generics.RetrieveUpdateAPIView):
+class MemeDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Meme.objects.all()
     serializer_class = MemeSerializer
 
     def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
         meme = get_object_or_404(Meme, pk=request.data.get('id'))
-        owner = request.data.get('owner')
-        if owner and meme.owner.id != owner:
-            return HttpResponse(status=400)
+        name = request.data.get('name')
+        if name and meme.owner.name != name:
+            return Response(status=422)
 
-        serializer = MemeSerializer(instance=meme,data=request.data)
+        serializer = MemeSerializer(partial=partial,instance=meme,data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data,status=200)
-        return Response(serializer.data,status=422)
+            return Response(status=200)
+        return Response(status=422)
 
-class OwnerDetails(generics.RetrieveUpdateAPIView):
+class OwnerDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Owner.objects.all()
     serializer_class = OwnerSerializer

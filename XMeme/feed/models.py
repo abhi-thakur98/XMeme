@@ -8,7 +8,7 @@ class Owner(models.Model):
 		return self.name
 
 class Meme(models.Model):
-	name = models.ForeignKey(Owner,on_delete=models.CASCADE)
+	owner = models.ForeignKey(Owner,on_delete=models.CASCADE)
 	caption = models.CharField(max_length=100)
 	url = models.URLField(max_length=300)
 	timestamp = models.DateTimeField(auto_now_add=True)

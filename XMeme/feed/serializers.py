@@ -8,9 +8,10 @@ class OwnerSerializer(serializers.ModelSerializer):
 		model = Owner
 		fields = '__all__'
 class MemeSerializer(serializers.ModelSerializer):
+	owner = serializers.StringRelatedField()
 	class Meta:
 		model = Meme
-		fields = '__all__'
+		fields = ['id','owner','url','caption']
 		validators = [
             UniqueTogetherValidator(
                 queryset=Meme.objects.all(),
