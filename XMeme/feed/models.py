@@ -11,7 +11,7 @@ class Meme(models.Model):
 	owner = models.ForeignKey(Owner,on_delete=models.CASCADE)
 	caption = models.CharField(max_length=100)
 	url = models.URLField(max_length=300)
-	timestamp = models.DateTimeField(auto_now=True)
+	timestamp = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
 		return self.caption
