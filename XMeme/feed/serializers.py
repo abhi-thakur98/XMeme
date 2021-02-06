@@ -3,6 +3,10 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from .models import *
 
+class OwnerSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Owner
+		fields = '__all__'
 class MemeSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Meme
@@ -14,8 +18,3 @@ class MemeSerializer(serializers.ModelSerializer):
 				message = 'Duplicate Data'
             )
         ]
-
-class OwnerSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Owner
-		fields = '__all__'

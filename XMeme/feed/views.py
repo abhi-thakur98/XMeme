@@ -21,7 +21,7 @@ class MemeList(generics.ListCreateAPIView):
             owner.save()
             serializer.save()
             return Response({"id" : serializer.data.get('id')},status=201)
-        return HttpResponse(status=422)
+        return Response(serializer.data,status=422)
         
 class OwnerList(generics.ListCreateAPIView):
     queryset = Owner.objects.all()
@@ -41,7 +41,7 @@ class MemeDetails(generics.RetrieveUpdateAPIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data,status=200)
-        return HttpResponse(status=422)
+        return Response(serializer.data,status=422)
 
 class OwnerDetails(generics.RetrieveUpdateAPIView):
     queryset = Owner.objects.all()
