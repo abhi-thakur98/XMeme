@@ -8,14 +8,14 @@ class OwnerSerializer(serializers.ModelSerializer):
 		model = Owner
 		fields = '__all__'
 class MemeSerializer(serializers.ModelSerializer):
-	owner = serializers.StringRelatedField()
+	name = serializers.StringRelatedField()
 	class Meta:
 		model = Meme
-		fields = ['id','owner','url','caption']
+		fields = ['id','name','url','caption']
 		validators = [
             UniqueTogetherValidator(
                 queryset=Meme.objects.all(),
-                fields=['owner', 'caption','url'],
+                fields=['name', 'caption','url'],
 				message = 'Duplicate Data'
             )
         ]
