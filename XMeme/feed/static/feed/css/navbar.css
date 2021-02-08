@@ -1,0 +1,31 @@
+.navbar {
+	position: sticky;
+	position: -webkit-sticky;
+	display: flex;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #333;
+}
+
+.bar-item {
+	float: left;
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.active {
+	background-color: #4CAF50;
+}
+
+.bar-item:hover {
+	background-color: #111;
+}

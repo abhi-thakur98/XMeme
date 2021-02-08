@@ -17,11 +17,14 @@ class MemeList(generics.ListCreateAPIView):
         url = request.data.get('url')
         caption = request.data.get('caption')
         
-        owner,_ = Owner.objects.get_or_create(name=name)
-        meme,created = Meme.objects.get_or_create(name=owner,url=url,caption=caption)
+        try:
+            owner,_ = Owner.objects.get_or_create(name=name)
+            meme,created = Meme.objects.get_or_create(name=owner,url=url,caption=caption)
+        except:
+            return Response(status=422)
         
         if not created:
-            return Response(status=422)
+            return Response({"error" : "Duplicate"},status=422)
         owner.num_memes += 1
         owner.save()
         return Response({"id" : meme.id},status=201)
