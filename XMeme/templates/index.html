@@ -5,6 +5,7 @@
 	<meta charset="utf-8">
 
 	<title>XMeme</title>
+	<link rel="shortcut icon" href="{% static 'feed/favicon.ico' %}" type="image/x-icon">  
 	<meta name="description" content="Crio XMeme Project">
 	<meta name="author" content="Abhishek Thakur">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -12,20 +13,22 @@
 	<link rel="stylesheet" href="{% static 'feed/css/feed.css' %}">
 	<link rel="stylesheet" href="{% static 'feed/css/navbar.css' %}">
 	<link rel="stylesheet" href="{% static 'feed/css/form.css' %}">
+	<style>
+		body {
+			background: linear-gradient(to right top, #65dfc9, #6cdbeb);
+		}
+	</style>
 </head>
 
 <body>
 	<ul class="navbar">
 		<li><a href="default.asp" class="bar-item">Home</a></li>
-		<li><a href="news.asp" class="bar-item">News</a></li>
-		<li><a href="contact.asp" class="bar-item">Contact</a></li>
-		<li><a href="about.asp" class="bar-item">About</a></li>
-		<li class="open-button bar-item" style='margin-left: auto;' onclick="openForm()">Submit A Meme</li>
+		<li class="open-button bar-item" style='margin-left: auto;' onclick="openForm(false)">Post A Meme</li>
 	</ul>
 	<div class="form-popup" id="myForm">
 		<!-- <div class="loader" id="loader"></div> -->
 		<form class="form-container" id="post-form">
-			<label id="message" style="display: none;"></label>
+			<input type="text" id="img-id" name="id" style="display: none;">
 			<label for="name">Owner Name</label><br>
 			<input type="text" id="name" name="name" autocomplete="off" required><br>
 
@@ -35,63 +38,145 @@
 			<label for="url">Meme URL</label><br>
 			<input type="link" id="url" name="url" autocomplete="off" required>
 			
-			<button class="btn" id="get_data">Sumbit</button>
-    		<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+			<label id="message" style="display: none;"></label>
+			<div>
+				<button class="btn" id="get_data">Post</button>
+    			<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+			</div>
 		</form>
 	</div>
 	<div class="feed" id="feed"></div>
+	<div class="big-div" id="big-div">
+		<button type="button" class="small-btn" id="close-btn" onclick="closeImage()">X</button>
+		<button type="button" class="small-btn" id="edit-btn" onclick="openForm(true)">Edit</button>
+		<span>
+			<p id='big-name'></p>
+			<p id='big-caption'></p>
+			<hr>
+		</span>
+		<img class="big-image" id="big-image" onerror="imgError(this);">
+		
+	</div>
+	<div class="circle1"></div>
+	<div class="circle2"></div>
 </body>
 <script>
 	function imgError(img) {
 		img.src = "{% static 'feed/error.jpg' %}";
+		img.style.opacity = 0.2;
 		console.log('in error');
 	}
+
+	function openImage(box){
+		var source = box.getElementsByTagName('img')[0].src;
+		var url = box.getElementsByTagName('img')[0].dataset.url;
+		var name = box.getElementsByTagName('span')[0].getElementsByTagName('p')[0].textContent
+		var caption = box.getElementsByTagName('span')[0].getElementsByTagName('p')[1].textContent
+		if (source.search('feed/error.jpg') >= 0){
+			source = "{% static 'feed/error2.jpg' %}";
+		}
+		document.getElementById("big-image").src = source;
+		document.getElementById("big-image").dataset.url = url;
+		document.getElementById("big-name").textContent = 'POSTED BY : '+name;
+		document.getElementById("big-caption").textContent = 'CAPTION : '+caption;
+		document.getElementById("big-div").dataset.img_id = box.id;
+		document.getElementById("big-div").style.display = "block";
+	}
+
 	$("#post-form").submit(function(){
 		event.preventDefault();
 		console.log("form submitted!");
 		var form = $(this);
-		$.ajax({
-			type: "POST",
-			url: 'memes/',
-			data: form.serialize(),
-			dataType: 'json',
-			beforeSend: function(){
-			},
-			success: function(response){
-				console.log("success");
-				console.log(response);
-				var id = response.id;
-				$.ajax({
-					type: "GET",
-					url: 'memes/'+id,
-					success: function(response){
-						item = response
-						let fig = document.createElement("div");
-						let img = document.createElement("img");
-						let capt = document.createElement("p");
-						let name = document.createElement("p")
-						img.src = item.url;
-						capt.textContent = item.caption;
-						name.textContent = item.name
-						fig.appendChild(name);
-						fig.appendChild(capt);
-						fig.appendChild(img);
-						feed.prepend(fig);
-					}
-				})
-				closeForm();
-			},
-			error: function(response){
-				console.log('error');
-				response = JSON.parse(response.responseText);
-				if (response["error"] == 'Duplicate'){
+		if (document.getElementById('name').disabled == false){
+			$.ajax({
+				type: "POST",
+				url: 'memes',
+				data: form.serialize(),
+				dataType: 'json',
+				success: function(response){
+					console.log("success");
+					console.log(response);
+					var id = response.id;
+					$.ajax({
+						type: "GET",
+						url: 'memes/'+id,
+						success: function(response){
+							item = response
+							let fig = document.createElement("div");
+							let img = document.createElement("img");
+							let capt = document.createElement("p");
+							let name = document.createElement("p");
+							let text = document.createElement("span");
+							err = document.createAttribute('onError');
+							err.value = "imgError(this);";
+							img.setAttributeNode(err);
+							img.dataset.url = item.url
+							img.src = item.url;
+							capt.className = "caption";
+							capt.textContent = item.caption;
+							name.textContent = item.name
+							text.appendChild(name);
+							text.appendChild(capt);
+							fig.appendChild(text);
+							fig.appendChild(img);
+							fig.id = item.id;
+							click = document.createAttribute('onClick');
+							click.value = "openImage(this)";
+							fig.setAttributeNode(click);
+							fig.className = "meme-div";
+							feed.prepend(fig);
+						}
+					})
+					closeForm();
+				},
+				error: function(response){
+					console.log('Form error');
+					console.log(response);
+					response = JSON.parse(response.responseText);
 					message_label = document.getElementById('message');
-					message_label.textContent = "Duplicate Data!";
+					message_label.textContent = response['detail'];
 					message_label.style.display = "block";
-					// alert('Duplicate Data');
 				}
-			}
-		});
+			});
+		}
+		else {
+			console.log('In else');
+			let id = document.getElementById("big-div").dataset.img_id;
+			document.getElementById("img-id").value = id;
+			$.ajax({
+				type: "PATCH",
+				url: "memes/"+id,
+				data: form.serialize(),
+				dataType: 'json',
+				success: function (response){
+					$.ajax({
+						type: "GET",
+						url: 'memes/'+id,
+						success: function(response){
+							item = response
+							box = document.getElementById(id);
+							var img = box.getElementsByTagName('img')[0];
+							var name = box.getElementsByTagName('span')[0].getElementsByTagName('p')[0];
+							var caption = box.getElementsByTagName('span')[0].getElementsByTagName('p')[1];
+							img.dataset.url = item.url;
+							img.src = item.url;
+							name.textContent = item.name;
+							caption.textContent = item.caption;
+							openImage(box);
+						}
+					})
+					closeForm();
+				},
+				error: function(response){
+					console.log('Form error');
+					console.log(response);
+					response = JSON.parse(response.responseText);
+					message_label = document.getElementById('message');
+					message_label.textContent = response['detail'];
+					message_label.style.display = "block";
+				}
+			});
+		}
 	});
 </script>
 </html>

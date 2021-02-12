@@ -4,18 +4,26 @@
 	display: flex;
 	top: 0px;
 	left: 0px;
-	width: 100%;
+	width: 97%;
 	list-style-type: none;
-	margin: 0;
+	margin: 10px auto;
 	padding: 0;
 	overflow: hidden;
-	background-color: #333;
+	/* background-color: #333; */
+	background: linear-gradient(
+		to right bottom,
+		rgba(255, 255, 255, 0.7),
+		rgba(255, 255, 255, 0.3)
+	);
+	backdrop-filter: blur(2rem);
+	border-radius: 15px;
+	z-index: 3;
 }
 
 .bar-item {
 	float: left;
 	display: block;
-	color: white;
+	color: #426696;
 	text-align: center;
 	padding: 14px 16px;
 	text-decoration: none;
@@ -27,5 +35,10 @@
 }
 
 .bar-item:hover {
-	background-color: #111;
+	background: linear-gradient(
+    to left top,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0.5)
+  );
+  transform: scale(1.2);
 }

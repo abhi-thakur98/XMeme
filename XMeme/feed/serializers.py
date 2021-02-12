@@ -9,6 +9,7 @@ class OwnerSerializer(serializers.ModelSerializer):
 		fields = '__all__'
 class MemeSerializer(serializers.ModelSerializer):
 	name = serializers.StringRelatedField()
+	url = serializers.URLField()
 	class Meta:
 		model = Meme
 		fields = ['id','name','url','caption']
