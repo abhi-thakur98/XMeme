@@ -86,10 +86,13 @@ WSGI_APPLICATION = 'XMeme.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': 'driqijuf31so3',
+        'HOST': 'ec2-3-211-245-154.compute-1.amazonaws.com',
+        'PORT': 5432,
+        'USER': 'ukllqukdlneiai',
+        'PASSWORD': 'b02c2a2569c727150b7d9446d37a71e74899b57eb0901944a3c7a6f5e57b472c',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
