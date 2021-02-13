@@ -3,6 +3,10 @@
 	color: #426696;
 }
 
+html {
+	scroll-behavior: smooth;
+}
+
 body::-webkit-scrollbar {
 	width: 10px;               /* width of the entire scrollbar */
 }

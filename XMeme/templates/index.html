@@ -1,6 +1,6 @@
 <!doctype html>
 {% load static %} 
-<html lang="en">
+<html lang="en" id="top">
 <head>
 	<meta charset="utf-8">
 
@@ -22,7 +22,8 @@
 
 <body>
 	<ul class="navbar">
-		<li><a href="default.asp" class="bar-item">Home</a></li>
+		<li><a class="bar-item" onclick="scroll_page()">Home</a></li>
+		<li><a class="bar-item" href="https://www.linkedin.com/in/abhishek-thakur-845b14176/" target="_blank">Contact Me</a></li>
 		<li class="open-button bar-item" style='margin-left: auto;' onclick="openForm(false)">Post A Meme</li>
 	</ul>
 	<div class="form-popup" id="myForm">
@@ -61,10 +62,17 @@
 	<div class="circle2"></div>
 </body>
 <script>
+	function scroll_page() {
+		window.scrollTo(0,0);
+	}
+
 	function imgError(img) {
-		img.src = "{% static 'feed/error.jpg' %}";
-		img.style.opacity = 0.2;
-		console.log('in error');
+		if(img.id!="big-image"){
+			img.src = "{% static 'feed/error.png' %}";
+		}
+		else{
+			img.src = "{% static 'feed/error2.jpg' %}";
+		}
 	}
 
 	function openImage(box){
@@ -85,7 +93,6 @@
 
 	$("#post-form").submit(function(){
 		event.preventDefault();
-		console.log("form submitted!");
 		var form = $(this);
 		if (document.getElementById('name').disabled == false){
 			$.ajax({
@@ -94,8 +101,6 @@
 				data: form.serialize(),
 				dataType: 'json',
 				success: function(response){
-					console.log("success");
-					console.log(response);
 					var id = response.id;
 					$.ajax({
 						type: "GET",
@@ -130,8 +135,6 @@
 					closeForm();
 				},
 				error: function(response){
-					console.log('Form error');
-					console.log(response);
 					response = JSON.parse(response.responseText);
 					message_label = document.getElementById('message');
 					message_label.textContent = response['detail'];
@@ -140,7 +143,6 @@
 			});
 		}
 		else {
-			console.log('In else');
 			let id = document.getElementById("big-div").dataset.img_id;
 			document.getElementById("img-id").value = id;
 			$.ajax({
@@ -168,8 +170,6 @@
 					closeForm();
 				},
 				error: function(response){
-					console.log('Form error');
-					console.log(response);
 					response = JSON.parse(response.responseText);
 					message_label = document.getElementById('message');
 					message_label.textContent = response['detail'];

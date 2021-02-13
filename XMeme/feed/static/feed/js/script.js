@@ -21,7 +21,6 @@ function openForm(patch) {
 }
 
 function closeForm() {
-	console.log("in close form")
 	document.getElementById("name").disabled = false;
 	document.getElementById("get_data").textContent = "Post";
 	document.getElementById("post-form").reset();
@@ -30,7 +29,6 @@ function closeForm() {
 }
 
 function closeImage() {
-	console.log("In Close ");
 	document.getElementById("big-div").style.display = "none";
 }
 
@@ -39,8 +37,6 @@ $(document).ready(function(){
 		type: "GET",
 		url: "memes",
 		success: function(response){
-			console.log('Result');
-			console.log(response);
 			var feed = document.getElementById('feed');
 			for (var i=0; i < response.length; i++){
 				item = response[i]
