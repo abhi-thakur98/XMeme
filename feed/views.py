@@ -21,7 +21,7 @@ class MemeList(generics.ListCreateAPIView):
         if not validators.url(url):
             return Response({"detail":"ERROR : Invalid URL"},status=422)
         
-        if not re.search(r'^[a-zA-Z ]*$',name):
+        if not re.search(r'[a-zA-Z]',name):
             return Response({"detail":"ERROR : Invalid Name"},status=422)
 
         try:
