@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'XMeme.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'driqijuf31so3',
         'HOST': 'ec2-3-211-245-154.compute-1.amazonaws.com',
         'PORT': 5432,
