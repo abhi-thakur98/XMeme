@@ -1,5 +1,4 @@
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponse, Http404
 from rest_framework import generics
 from rest_framework.response import Response
 from .models import *
@@ -37,19 +36,17 @@ class MemeList(generics.ListCreateAPIView):
         owner.num_memes += 1
         owner.save()
         return Response({"id" : meme.id},status=201)
-        
-class OwnerList(generics.ListCreateAPIView):
+
+class OwnerList(generics.ListAPIView):
     queryset = Owner.objects.all()
     serializer_class = OwnerSerializer
 
-class MemeDetails(generics.RetrieveUpdateDestroyAPIView):
+class MemeDetails(generics.RetrieveUpdateAPIView):
     queryset = Meme.objects.all()
     serializer_class = MemeSerializer
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
-        print('In patch')
-        print(request.data.get('id'))
         meme = get_object_or_404(Meme, pk=request.data.get('id'))
         name = request.data.get('name')
         url = request.data.get('url')
@@ -64,7 +61,3 @@ class MemeDetails(generics.RetrieveUpdateDestroyAPIView):
             serializer.save()
             return Response({"detail":"Success"},status=200)
         return Response({"detail":"ERROR : Duplicate Data"},status=409)
-
-class OwnerDetails(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Owner.objects.all()
-    serializer_class = OwnerSerializer
