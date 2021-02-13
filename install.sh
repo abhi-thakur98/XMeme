@@ -5,6 +5,7 @@ sudo add-apt-repository -y ppa:deadsnakes/ppa
 sudo apt update
 sudo apt install -y python3.8
 sudo apt-get install -y python3-pip
+sudo apt-get install -y python3.8-venv
 sudo apt-get install -y software-properties-common
 sudo apt install -y build-essential
-sudo apt install -y libpq-dev python-dev
+sudo apt install -y libpq-dev python3.8-dev
