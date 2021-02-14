@@ -1,1 +1,31 @@
-<p>Page Not Found</p>
+<!doctype html>
+{% load static %} 
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<title>XMeme</title>
+		<link rel="shortcut icon" href="{% static 'feed/favicon.ico' %}" type="image/x-icon">  
+		<meta name="description" content="Crio XMeme Project">
+		<meta name="author" content="Abhishek Thakur">
+		<link rel="stylesheet" href="{% static 'feed/css/feed.css' %}">
+		<link rel="stylesheet" href="{% static 'feed/css/navbar.css' %}">
+		<style>
+			body {
+				background: linear-gradient(to right top, #65dfc9, #6cdbeb);
+			}
+		</style>
+	</head>
+
+	<body>
+		<ul class="navbar">
+			<li><a class="bar-item" href="/">Home</a></li>
+			<li><a class="bar-item" href="https://www.linkedin.com/in/abhishek-thakur-845b14176/" target="_blank">Contact Me</a></li>
+		</ul>
+		<div class="feed" id="feed">
+			<p> OOPS : PAGE NOT FOUND :(</p>
+		</div>
+		<div class="circle1"></div>
+		<div class="circle2"></div>
+	</body>
+</html>
