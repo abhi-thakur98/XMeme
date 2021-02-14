@@ -62,7 +62,7 @@ $(document).ready(function(){
 				fig.setAttributeNode(click);
 				fig.id = item.id;
 				fig.className = "meme-div";
-				feed.prepend(fig);
+				feed.appendChild(fig);
 			}
 
 		}
