@@ -10,7 +10,7 @@ def index(request):
     return render(request,'index.html')
 
 class MemeList(generics.ListCreateAPIView):
-    queryset = Meme.objects.all().order_by('-id')
+    queryset = Meme.objects.all().order_by('-id')[:100]
     serializer_class = MemeSerializer
 
     def create(self, request, *args, **kwargs):
