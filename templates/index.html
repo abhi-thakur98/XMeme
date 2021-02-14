@@ -80,7 +80,7 @@
 		var url = box.getElementsByTagName('img')[0].dataset.url;
 		var name = box.getElementsByTagName('span')[0].getElementsByTagName('p')[0].textContent
 		var caption = box.getElementsByTagName('span')[0].getElementsByTagName('p')[1].textContent
-		if (source.search('feed/error.png') >= 0){
+		if (source.search('feed/error') >= 0){
 			source = "{% static 'feed/error2.jpg' %}";
 		}
 		document.getElementById("big-image").src = source;
